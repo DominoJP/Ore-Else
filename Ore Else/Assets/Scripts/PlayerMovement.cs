@@ -5,10 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public Rigidbody2D rb;
-    public float moveDirectionX;
-    public float moveDirectionY;
     public float moveSpeed;
+    public Rigidbody2D rb;
+    Vector2 moveDirection;
 
 
     // Start is called before the first frame update
@@ -20,19 +19,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        moveDirection.x = Input.GetAxis("Horizontal");
+        moveDirection.y = Input.GetAxis("Vertical");
     }
 
-
-
-    public void ManageMovement()
+    private void FixedUpdate()
     {
-        moveDirectionX = Input.GetAxis("Horizontal");
-        moveDirectionY = Input.GetAxis("Vertical");
-
-        //rb.AddForce(
-
+        rb.MovePosition(rb.position + (moveDirection * moveSpeed * Time.fixedDeltaTime));
     }
+
+   
 
 
 
