@@ -14,6 +14,9 @@ public class PlayerCollisionManager : MonoBehaviour
     public bool canUseShop;
     public bool canUseEnchantingStation;
 
+
+    public GameObject anvilSurface;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +28,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         if(canUseStorageChest && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("working");
+            Instantiate(anvilSurface, transform);
         }
     }
 
