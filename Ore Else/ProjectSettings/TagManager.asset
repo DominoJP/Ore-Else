@@ -11,6 +11,11 @@ TagManager:
   - GemStation
   - Shop
   - EnchantingStation
+  - HammerFillBar
+  - HammerTarget
+  - HammerIndicator
+  - TopBumper
+  - BottomBumper
   layers:
   - Default
   - TransparentFX
