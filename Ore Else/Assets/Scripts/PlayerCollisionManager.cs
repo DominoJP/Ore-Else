@@ -13,14 +13,19 @@ public class PlayerCollisionManager : MonoBehaviour
     public bool canUseGemStation;
     public bool canUseShop;
     public bool canUseEnchantingStation;
-
+    public Vector3 cameraPos;
+    public Camera mainCam;
+    public Vector3 centerOfShop;
+    public GameObject scriptManager;
 
     public GameObject anvilSurface;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        centerOfShop = new Vector3(0, 0, 0);
+        mainCam = Camera.main;
+       // cameraPos = mainCam.ScreenToWorldPoint;
     }
 
     // Update is called once per frame
@@ -28,7 +33,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         if(canUseStorageChest && Input.GetKeyDown(KeyCode.E))
         {
-            Instantiate(anvilSurface, transform);
+            Instantiate(anvilSurface, scriptManager.transform) ;
         }
     }
 

@@ -38,7 +38,19 @@ public class HammerIndicatorController : MonoBehaviour
             hammerGameScript.moveDirection = new Vector2(0, 1);
         }
 
+        if (other.CompareTag("HammerTarget"))
+        {
+            hammerGameScript.isInTarget = true;
+        }
+
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("HammerTarget"))
+        {
+            hammerGameScript.isInTarget = false;
+        }
+    }
 
 }
