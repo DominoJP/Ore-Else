@@ -11,6 +11,7 @@ public class HammerMinigame : MonoBehaviour
     public int requiredHits = 8;
     public List<float> hitDistances = new List<float>();
     public int hitCounter = 0;
+    public float testItemScore;
 
     public GameObject indicator;
     public GameObject target;
@@ -62,6 +63,7 @@ public class HammerMinigame : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && hitCounter < requiredHits) 
         {
+            target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y - ((1f/requiredHits)/2f)));
 
             if (!isInTarget)
              {
@@ -77,14 +79,20 @@ public class HammerMinigame : MonoBehaviour
             hitDistances.Add(currentHitDistance);
             hitCounter++;
         }
+        
+
+       
 
         if (hitCounter == requiredHits)
         {
             AverageScores();
 
+            testItemScore = currentPartScore;
+
             hitDistances.Clear();
             hitCounter = 0;
-
+            currentPartScore = 0;
+            //target.transform.localScale = new Vector2(1, .5f);
         }
 
             
