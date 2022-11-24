@@ -33,7 +33,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         if(canUseStorageChest && Input.GetKeyDown(KeyCode.E))
         {
-            Instantiate(anvilSurface, scriptManager.transform) ;
+            
         }
     }
 

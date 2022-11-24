@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HammerMinigame : MonoBehaviour
 {
 
     
-    public float currentWeaponScore;
+    public float currentPartScore;
     public float currentHitDistance;
+    public int requiredHits = 8;
+    public List<float> hitDistances = new List<float>();
+    public int hitCounter = 0;
+
     public GameObject indicator;
     public GameObject target;
     public GameObject fillBar;
@@ -24,7 +27,7 @@ public class HammerMinigame : MonoBehaviour
     public StoredValues storedValues;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         moveDirection = new Vector2(0, 1);
         isMovingDown = false;
@@ -34,6 +37,10 @@ public class HammerMinigame : MonoBehaviour
         indicator = GameObject.Find("Indicator");
 
         storedValues = GameObject.Find("ScriptManager").GetComponent<StoredValues>();
+
+        requiredHits = 8;
+        hitCounter = 0;
+
     }
 
     // Update is called once per frame
@@ -53,24 +60,45 @@ public class HammerMinigame : MonoBehaviour
     public void ManageHits()
     {
 
-        for (int i = 0; i < 8; i++)
+        if (Input.GetMouseButtonDown(0) && hitCounter < requiredHits) 
         {
-            if (Input.GetMouseButtonDown(0)) 
-            {
-                if (!isInTarget)
-                {
-                    currentHitDistance = Mathf.Abs(target.transform.position.y - indicator.transform.position.y);
-                }
 
-            }
+            if (!isInTarget)
+             {
+                currentHitDistance = Mathf.Abs(target.transform.position.y - indicator.transform.position.y);
+             }
+
 
             if (isInTarget)
             {
                 currentHitDistance = 0f;
             }
-            
+
+            hitDistances.Add(currentHitDistance);
+            hitCounter++;
+        }
+
+        if (hitCounter == requiredHits)
+        {
+            AverageScores();
+
+            hitDistances.Clear();
+            hitCounter = 0;
 
         }
+
+            
+
+    }
+
+    public void AverageScores()
+    {
+        for(int i = 0; i < hitDistances.Count; i++)
+        {
+            currentPartScore = currentPartScore + hitDistances[i];
+        }
+
+        currentPartScore = currentPartScore / hitDistances.Count;
     }
 
 
