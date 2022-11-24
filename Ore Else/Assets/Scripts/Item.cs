@@ -10,8 +10,8 @@ public class Item : ScriptableObject
     public string itemName;
     public int value;
     public float qualityScore;
-    public Sprite icon;
+    //public Sprite icon;
 
-
+    
 
 }

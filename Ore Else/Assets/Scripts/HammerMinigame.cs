@@ -11,7 +11,7 @@ public class HammerMinigame : MonoBehaviour
     public int requiredHits = 8;
     public List<float> hitDistances = new List<float>();
     public int hitCounter = 0;
-    public float testItemScore;
+    public float finalItemScore;
 
     public GameObject indicator;
     public GameObject target;
@@ -22,10 +22,11 @@ public class HammerMinigame : MonoBehaviour
     public Vector2 moveDirection;
     public bool isMovingUp;
     public bool isMovingDown;
-
     public bool isInTarget;
+    public ScriptableObject dullBlade;
 
     public StoredValues storedValues;
+    public InventoryManager inventoryManager;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,7 @@ public class HammerMinigame : MonoBehaviour
         indicator = GameObject.Find("Indicator");
 
         storedValues = GameObject.Find("ScriptManager").GetComponent<StoredValues>();
+        inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
 
         requiredHits = 8;
         hitCounter = 0;
@@ -86,8 +88,13 @@ public class HammerMinigame : MonoBehaviour
         if (hitCounter == requiredHits)
         {
             AverageScores();
+           
+            inventoryManager.items.Add(ScriptableObject.CreateInstance<Item>());
 
-            testItemScore = currentPartScore;
+            int currentIndex = inventoryManager.items.Count - 1;
+
+            AddDullBladeToList(finalItemScore, currentIndex);
+            
 
             hitDistances.Clear();
             hitCounter = 0;
@@ -107,9 +114,34 @@ public class HammerMinigame : MonoBehaviour
         }
 
         currentPartScore = currentPartScore / hitDistances.Count;
+        finalItemScore = (1 - currentPartScore) * 100;
     }
 
+    public void AddDullBladeToList(float quality, int currentIndex)
+    {
+        string prefix;
+        prefix = null;
 
+        if(quality <= 25)
+        {
+            prefix = "Crude";
+        }
+        if (quality > 25 && quality <= 50)
+        {
+            prefix = "Decent";
+        }
+        if (quality > 50 && quality <= 75)
+        {
+            prefix = "Good";
+        }
+        if (quality > 75 && quality <= 100)
+        {
+            prefix = "Excellent";
+        }
+
+        inventoryManager.items[currentIndex].itemName = prefix + " Dull Blade";
+        inventoryManager.items[currentIndex].qualityScore = finalItemScore;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

@@ -9,4 +9,10 @@ public class InventoryManager : MonoBehaviour
 
     // Start is called before the first frame update
     
+    public void setValues(string name, int value, float quality)
+    {
+        
+    }
+
+
 }
