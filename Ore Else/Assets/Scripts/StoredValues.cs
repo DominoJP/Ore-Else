@@ -5,10 +5,19 @@ using UnityEngine;
 public class StoredValues : MonoBehaviour
 {
 
-    public int playerMoney;
-    public GameObject[] inventoryItems;
-    public float currentWeaponScore;
+    public int money;
 
+    public int rawIron;
+    public int rawMithril;
+    public int rawOrichalcum;
+
+    public int rawOak;
+    public int rawMaple;
+    public int rawMahogany;
+
+    public int sapphire;
+    public int emerald;
+    public int ruby;
 
 
     // Start is called before the first frame update

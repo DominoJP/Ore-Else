@@ -20,9 +20,12 @@ public class PlayerCollisionManager : MonoBehaviour
 
     public GameObject anvilSurface;
 
+    //public Canvas hammerCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
+        //hammerCanvas.enabled = false;
         centerOfShop = new Vector3(0, 0, 0);
         mainCam = Camera.main;
        // cameraPos = mainCam.ScreenToWorldPoint;
@@ -33,7 +36,8 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         if(canUseStorageChest && Input.GetKeyDown(KeyCode.E))
         {
-            
+            Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
+
         }
     }
 

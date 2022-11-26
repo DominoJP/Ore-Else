@@ -5,13 +5,17 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
 
+
+    public int activeItemIndex;
+    //on click item in inventory UI, activeItemIndex = 
+
     public List<Item> items = new List<Item>();
 
     // Start is called before the first frame update
     
-    public void setValues(string name, int value, float quality)
+    public void findItemIndex()
     {
-        
+       
     }
 
 

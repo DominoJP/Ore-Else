@@ -5,7 +5,8 @@ using UnityEngine;
 public class HammerMinigame : MonoBehaviour
 {
 
-    
+    public Canvas hammerCanvas;
+
     public float currentPartScore;
     public float currentHitDistance;
     public int requiredHits = 8;
@@ -31,6 +32,7 @@ public class HammerMinigame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //hammerCanvas = GameObject.Find("HammerGameCanvas").GetComponent<Canvas>();
         moveDirection = new Vector2(0, 1);
         isMovingDown = false;
         isMovingUp = true;
@@ -39,7 +41,11 @@ public class HammerMinigame : MonoBehaviour
         indicator = GameObject.Find("Indicator");
 
         storedValues = GameObject.Find("ScriptManager").GetComponent<StoredValues>();
+
+        Debug.Log("Test Start Function");
+
         inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
+
 
         requiredHits = 8;
         hitCounter = 0;
@@ -49,6 +55,7 @@ public class HammerMinigame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //FindInventoryManager();
         ManageIndicatorMovement();
         ManageHits();
     }
@@ -65,11 +72,10 @@ public class HammerMinigame : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && hitCounter < requiredHits) 
         {
-            target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y - ((1f/requiredHits)/2f)));
-
+            
             if (!isInTarget)
              {
-                currentHitDistance = Mathf.Abs(target.transform.position.y - indicator.transform.position.y);
+                currentHitDistance = Mathf.Abs(target.transform.position.y - indicator.transform.position.y)/2.6f;
              }
 
 
@@ -80,10 +86,13 @@ public class HammerMinigame : MonoBehaviour
 
             hitDistances.Add(currentHitDistance);
             hitCounter++;
-        }
-        
 
-       
+            target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y - ((1f / requiredHits) / 2f)));
+
+        }
+
+
+
 
         if (hitCounter == requiredHits)
         {
@@ -99,7 +108,9 @@ public class HammerMinigame : MonoBehaviour
             hitDistances.Clear();
             hitCounter = 0;
             currentPartScore = 0;
-            //target.transform.localScale = new Vector2(1, .5f);
+            //hammerCanvas.enabled = false;
+
+            Destroy(gameObject);
         }
 
             
@@ -126,15 +137,15 @@ public class HammerMinigame : MonoBehaviour
         {
             prefix = "Crude";
         }
-        if (quality > 25 && quality <= 50)
+        if (quality > 25 && quality <= 70)
         {
             prefix = "Decent";
         }
-        if (quality > 50 && quality <= 75)
+        if (quality > 70 && quality <= 90)
         {
             prefix = "Good";
         }
-        if (quality > 75 && quality <= 100)
+        if (quality > 90 && quality <= 100)
         {
             prefix = "Excellent";
         }
@@ -142,6 +153,23 @@ public class HammerMinigame : MonoBehaviour
         inventoryManager.items[currentIndex].itemName = prefix + " Dull Blade";
         inventoryManager.items[currentIndex].qualityScore = finalItemScore;
     }
+   /* void FindInventoryManager()
+    {
+        if (!isFound)
+        {
+            inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
+            isFound = true;
+        }
+
+        if (isFound)
+        {
+            return;
+        }
+
+        bool isFound = false;
+
+        
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {
