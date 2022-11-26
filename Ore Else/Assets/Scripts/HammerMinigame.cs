@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class HammerMinigame : MonoBehaviour
@@ -13,6 +14,10 @@ public class HammerMinigame : MonoBehaviour
     public List<float> hitDistances = new List<float>();
     public int hitCounter = 0;
     public float finalItemScore;
+
+    public Sprite barIcon;
+    public InventorySlot inventorySlot;
+    public InventoryUI inventoryUI;
 
     public GameObject indicator;
     public GameObject target;
@@ -40,8 +45,9 @@ public class HammerMinigame : MonoBehaviour
         target = GameObject.Find("Target");
         indicator = GameObject.Find("Indicator");
 
+        inventorySlot = GameObject.Find("InventorySlot").GetComponent<InventorySlot>();
         storedValues = GameObject.Find("ScriptManager").GetComponent<StoredValues>();
-
+        inventoryUI = GameObject.Find("Inventory").GetComponent<InventoryUI>();
         Debug.Log("Test Start Function");
 
         inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
@@ -103,7 +109,9 @@ public class HammerMinigame : MonoBehaviour
             int currentIndex = inventoryManager.items.Count - 1;
 
             AddDullBladeToList(finalItemScore, currentIndex);
-            
+
+            inventorySlot.AddItem(inventoryManager.items[currentIndex]);
+
 
             hitDistances.Clear();
             hitCounter = 0;
@@ -152,7 +160,9 @@ public class HammerMinigame : MonoBehaviour
 
         inventoryManager.items[currentIndex].itemName = prefix + " Dull Blade";
         inventoryManager.items[currentIndex].qualityScore = finalItemScore;
+        
     }
+
    /* void FindInventoryManager()
     {
         if (!isFound)

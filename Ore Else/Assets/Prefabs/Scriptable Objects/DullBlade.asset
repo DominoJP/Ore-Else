@@ -16,4 +16,4 @@ MonoBehaviour:
   itemName: 
   value: 0
   qualityScore: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 58b3d93c988b1f84285547caa744b58a, type: 3}
