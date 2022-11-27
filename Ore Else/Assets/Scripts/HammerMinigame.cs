@@ -29,7 +29,8 @@ public class HammerMinigame : MonoBehaviour
     public bool isMovingUp;
     public bool isMovingDown;
     public bool isInTarget;
-    public ScriptableObject dullBlade;
+
+    public Item dullBlade;
 
     public StoredValues storedValues;
     public InventoryManager inventoryManager;
@@ -104,19 +105,21 @@ public class HammerMinigame : MonoBehaviour
         {
             AverageScores();
            
-            inventoryManager.items.Add(ScriptableObject.CreateInstance<Item>());
+           //
+           //inventoryManager.items.Add(ScriptableObject.CreateInstance<Item>());
 
-            int currentIndex = inventoryManager.items.Count - 1;
+            //int currentIndex = inventoryManager.items.Count - 1;
 
-            AddDullBladeToList(finalItemScore, currentIndex);
+            string prefix = GenerateName(finalItemScore);
+            
 
-            inventorySlot.AddItem(inventoryManager.items[currentIndex]);
+            inventoryManager.Add(dullBlade, finalItemScore, prefix + " Dull Blade", "Unsharpened Blade");
 
 
             hitDistances.Clear();
             hitCounter = 0;
             currentPartScore = 0;
-            //hammerCanvas.enabled = false;
+           
 
             Destroy(gameObject);
         }
@@ -136,7 +139,7 @@ public class HammerMinigame : MonoBehaviour
         finalItemScore = (1 - currentPartScore) * 100;
     }
 
-    public void AddDullBladeToList(float quality, int currentIndex)
+    public string GenerateName(float quality)
     {
         string prefix;
         prefix = null;
@@ -158,35 +161,13 @@ public class HammerMinigame : MonoBehaviour
             prefix = "Excellent";
         }
 
-        inventoryManager.items[currentIndex].itemName = prefix + " Dull Blade";
-        inventoryManager.items[currentIndex].qualityScore = finalItemScore;
+        return prefix;
+        
         
     }
 
-   /* void FindInventoryManager()
-    {
-        if (!isFound)
-        {
-            inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
-            isFound = true;
-        }
+   
 
-        if (isFound)
-        {
-            return;
-        }
-
-        bool isFound = false;
-
-        
-    }*/
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-       
-
-       
-    }
 
 
 }

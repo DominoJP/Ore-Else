@@ -5,18 +5,29 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
 
-
-    public int activeItemIndex;
-    //on click item in inventory UI, activeItemIndex = 
-
+    public delegate void OnInventoryChange();
+    public OnInventoryChange onInventoryChangeCallback;
+    
+    
     public List<Item> items = new List<Item>();
 
-    // Start is called before the first frame update
-    
-    public void findItemIndex()
+   public void Add(Item item, float qualityScore, string name, string itemType)
     {
-       
+
+
+
+        items.Add(Instantiate(item));
+
+        int currentIndex = items.Count - 1;
+
+        items[currentIndex].itemName = name;
+        items[currentIndex].qualityScore = qualityScore;
+       // items[itemIndex].value = value;
+        items[currentIndex].type = itemType;
+
+
     }
+   
 
 
 }

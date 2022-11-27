@@ -7,6 +7,7 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public int id;
+    public string type;
     public string itemName;
     public int value;
     public float qualityScore;
