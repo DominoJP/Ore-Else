@@ -16,8 +16,8 @@ public class HammerMinigame : MonoBehaviour
     public float finalItemScore;
 
     public Sprite barIcon;
-    public InventorySlot inventorySlot;
-    public InventoryUI inventoryUI;
+    public Sprite TestIcon;
+    
 
     public GameObject indicator;
     public GameObject target;
@@ -32,7 +32,7 @@ public class HammerMinigame : MonoBehaviour
 
     public Item dullBlade;
 
-    public StoredValues storedValues;
+    
     public InventoryManager inventoryManager;
 
     // Start is called before the first frame update
@@ -46,10 +46,9 @@ public class HammerMinigame : MonoBehaviour
         target = GameObject.Find("Target");
         indicator = GameObject.Find("Indicator");
 
-        inventorySlot = GameObject.Find("InventorySlot").GetComponent<InventorySlot>();
-        storedValues = GameObject.Find("ScriptManager").GetComponent<StoredValues>();
-        inventoryUI = GameObject.Find("Inventory").GetComponent<InventoryUI>();
-        Debug.Log("Test Start Function");
+        
+        
+       // Debug.Log("Test Start Function");
 
         inventoryManager = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
 
@@ -111,9 +110,12 @@ public class HammerMinigame : MonoBehaviour
             //int currentIndex = inventoryManager.items.Count - 1;
 
             string prefix = GenerateName(finalItemScore);
-            
 
-            inventoryManager.Add(dullBlade, finalItemScore, prefix + " Dull Blade", "Unsharpened Blade");
+            int value = Mathf.CeilToInt(finalItemScore * 1.2f);
+
+           
+
+            inventoryManager.Add(dullBlade, finalItemScore, prefix + " Dull Blade", "Unsharpened Blade", barIcon, value);
 
 
             hitDistances.Clear();
