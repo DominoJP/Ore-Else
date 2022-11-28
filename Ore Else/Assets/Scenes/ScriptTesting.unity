@@ -3816,18 +3816,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 492999786}
     m_Modifications:
-    - target: {fileID: 87719759365063340, guid: 473c8409cdbbe9f4b82c219c3c71ec10, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 87719759365063340, guid: 473c8409cdbbe9f4b82c219c3c71ec10, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 1102076284}
-    - target: {fileID: 87719759365063340, guid: 473c8409cdbbe9f4b82c219c3c71ec10, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2149046008764208985, guid: 473c8409cdbbe9f4b82c219c3c71ec10, type: 3}
       propertyPath: m_Name
       value: Slot

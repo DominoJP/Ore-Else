@@ -34,11 +34,28 @@ public class PlayerCollisionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canUseStorageChest && Input.GetKeyDown(KeyCode.E))
+        if(canUseAnvil && Input.GetKeyDown(KeyCode.E))
         {
             Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
 
         }
+
+        if(canUseShop && Input.GetKeyDown(KeyCode.E))
+        {
+            for(int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].EnableSellButton();
+            }
+        }
+
+        if (!canUseShop)
+        {
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].DisableSellButton();
+            }
+        }
+
     }
 
 

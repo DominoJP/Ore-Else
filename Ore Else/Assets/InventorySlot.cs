@@ -34,10 +34,10 @@ public class InventorySlot : MonoBehaviour
 
         icon.sprite = itemSprite;
         icon.enabled = true;
-
-        RemoveButton.interactable = true;
-        SellButton.interactable = true;
         SelectButton.interactable = true;
+        RemoveButton.interactable = true;
+        
+       
         indexUI = index;
         
     }
@@ -50,6 +50,11 @@ public class InventorySlot : MonoBehaviour
         RemoveButton.interactable = false;
         SellButton.interactable = false;
         SelectButton.interactable = false;
+        qualityScoreUI = 0;
+        nameUI = null;
+        typeUI = null;
+        valueUI = 0;
+        indexUI = -1;
         
     }
 
@@ -81,4 +86,22 @@ public class InventorySlot : MonoBehaviour
         InventoryUI.instance.UpdateUI();
     }
 
+    public void EnableSellButton()
+    {
+        if (indexUI >= 0)
+        {
+            SellButton.interactable = true;
+            RemoveButton.interactable = false;
+        }
+        
+    }
+
+    public void DisableSellButton()
+    {
+        SellButton.interactable = false;
+        if (indexUI >= 0)
+        {
+            RemoveButton.interactable = true;
+        }
+    }
 }
