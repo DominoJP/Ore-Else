@@ -20,7 +20,7 @@ public class ChestInventorySlot : MonoBehaviour
     public bool hasItem;
 
     public int trueIndexUI;
-
+    
 
 
 

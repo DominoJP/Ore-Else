@@ -18,6 +18,7 @@ public class InventorySlot : MonoBehaviour
     public int valueUI;
     public int indexUI;
     public bool hasItem;
+    public bool chestOpen;
 
     public int trueIndexUI;
 
@@ -110,14 +111,19 @@ public class InventorySlot : MonoBehaviour
 
     public void TransferItem()
     {
-        InventoryUI.instance.UpdateUI();
+        if (chestOpen)
 
-        ChestInventoryManager.instance.Add(item, qualityScoreUI, nameUI, typeUI, item.sprite, valueUI);
+        {
 
-        RemoveItemFromInventoryScript();
-        RemoveItem();
+            InventoryUI.instance.UpdateUI();
 
-        InventoryUI.instance.UpdateUI();
+            ChestInventoryManager.instance.Add(item, qualityScoreUI, nameUI, typeUI, item.sprite, valueUI);
+
+            RemoveItemFromInventoryScript();
+            RemoveItem();
+
+            InventoryUI.instance.UpdateUI();
+        }
     }
 
 }

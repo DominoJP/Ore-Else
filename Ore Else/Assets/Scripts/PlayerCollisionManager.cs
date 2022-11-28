@@ -17,6 +17,7 @@ public class PlayerCollisionManager : MonoBehaviour
     public Camera mainCam;
     public Vector3 centerOfShop;
     public GameObject scriptManager;
+    public Canvas chestCanvas;
 
     public GameObject anvilSurface;
 
@@ -53,6 +54,27 @@ public class PlayerCollisionManager : MonoBehaviour
             for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
             {
                 InventoryUI.instance.inventorySlots[i].DisableSellButton();
+            }
+        }
+
+        if (canUseStorageChest && Input.GetKeyDown(KeyCode.E))
+        {
+            chestCanvas.enabled = true;
+            
+            for(int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].chestOpen = true;
+            }
+
+        }
+
+        if (!canUseStorageChest)
+        {
+            chestCanvas.enabled = false;
+
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].chestOpen = false;
             }
         }
 

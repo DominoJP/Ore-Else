@@ -400,6 +400,7 @@ MonoBehaviour:
   mainCam: {fileID: 0}
   centerOfShop: {x: 0, y: 0, z: 0}
   scriptManager: {fileID: 1411478202}
+  chestCanvas: {fileID: 1847982779}
   anvilSurface: {fileID: 6137917855928627612, guid: 025cfe6ab8e082343953fc1fe68274dd, type: 3}
 --- !u!114 &85613127
 MonoBehaviour:
@@ -5567,7 +5568,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847982775}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 519420031}
