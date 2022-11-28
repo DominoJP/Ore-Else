@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44e619a959984a4898b93bb73bdb751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 2700152730141419337}
   TransferButton: {fileID: 5632732873489760562}
   SelectButton: {fileID: 1078683794997346485}
   RemoveButton: {fileID: 87719759365063340}
@@ -209,6 +209,7 @@ MonoBehaviour:
   typeUI: 
   valueUI: 0
   indexUI: 0
+  hasItem: 0
   trueIndexUI: 0
 --- !u!222 &-6068224891215199526
 CanvasRenderer:
@@ -413,7 +414,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5838671749201533444}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1571453652}
+        m_TargetAssemblyTypeName: ChestInventorySlot, Assembly-CSharp
+        m_MethodName: TransferItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3907163432400119157
 GameObject:
   m_ObjectHideFlags: 0

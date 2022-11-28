@@ -17,6 +17,7 @@ public class ChestInventorySlot : MonoBehaviour
     public string typeUI;
     public int valueUI;
     public int indexUI;
+    public bool hasItem;
 
     public int trueIndexUI;
 
@@ -38,7 +39,7 @@ public class ChestInventorySlot : MonoBehaviour
         icon.enabled = true;
         SelectButton.interactable = true;
         RemoveButton.interactable = true;
-
+        hasItem = true;
 
         indexUI = index;
 
@@ -56,8 +57,7 @@ public class ChestInventorySlot : MonoBehaviour
         nameUI = null;
         typeUI = null;
         valueUI = 0;
-        indexUI = -1;
-
+        hasItem = false;
     }
 
 
@@ -75,12 +75,22 @@ public class ChestInventorySlot : MonoBehaviour
          }*/
 
         ChestUI.instance.UpdateUI();
-        ChestInventoryManager.instance.items.Remove(ChestInventoryManager.instance.items[indexUI]);
+        ChestInventoryManager.instance.items.Remove(ChestInventoryManager.instance.items[trueIndexUI]);
     }
 
-    public void SellTransferItem()
+    public void TransferItem()
     {
+
+
         ChestUI.instance.UpdateUI();
+
+        InventoryManager.instance.Add(item, qualityScoreUI, nameUI, typeUI, item.sprite, valueUI);
+
+        RemoveItemFromInventoryScript();
+        RemoveItem();
+
+        ChestUI.instance.UpdateUI();
+
     }
 
     public void SelectItem()
@@ -90,7 +100,7 @@ public class ChestInventorySlot : MonoBehaviour
 
     public void EnableSellButton()
     {
-        if (indexUI >= 0)
+        if (hasItem)
         {
             TransferButton.interactable = true;
             RemoveButton.interactable = false;
@@ -101,7 +111,7 @@ public class ChestInventorySlot : MonoBehaviour
     public void DisableSellButton()
     {
         TransferButton.interactable = false;
-        if (indexUI >= 0)
+        if (hasItem)
         {
             RemoveButton.interactable = true;
         }
