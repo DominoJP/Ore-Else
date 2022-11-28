@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class ChestUI : MonoBehaviour
 {
-    public static InventoryUI instance;
+    public static ChestUI instance;
 
     public Transform slotsParent;
 
-    public InventorySlot[] inventorySlots;
+    public ChestInventorySlot[] inventorySlots;
 
 
-    public InventoryManager inventoryScript;
+    public ChestInventoryManager inventoryScript;
 
 
     private void Awake()
@@ -28,9 +28,9 @@ public class InventoryUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inventoryScript = GameObject.Find("ScriptManager").GetComponent<InventoryManager>();
+        inventoryScript = GameObject.Find("ScriptManager").GetComponent<ChestInventoryManager>();
 
-        inventorySlots = slotsParent.GetComponentsInChildren<InventorySlot>();
+        inventorySlots = slotsParent.GetComponentsInChildren<ChestInventorySlot>();
 
         UpdateUI();
 
@@ -39,20 +39,19 @@ public class InventoryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //UpdateUI();
     }
 
     public void UpdateUI()
     {
 
-        Debug.Log("Updated Inventory");
+        Debug.Log("Updated Chest Inventory");
 
-         for(int i = 0; i < inventorySlots.Length; i++)
+        for (int i = 0; i < inventorySlots.Length; i++)
         {
             if (i < inventoryScript.items.Count)
             {
                 inventorySlots[i].AddItem(inventoryScript.items[i], inventoryScript.items[i].qualityScore, inventoryScript.items[i].itemName, inventoryScript.items[i].type, inventoryScript.items[i].sprite, inventoryScript.items[i].value, inventoryScript.items[i].itemIndex);
-                
                 inventorySlots[i].trueIndexUI = i;
             }
 
@@ -66,7 +65,7 @@ public class InventoryUI : MonoBehaviour
 
     }
 
-   
+
 
 
 }
