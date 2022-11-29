@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.y = Input.GetAxis("Vertical");
-
+        FindObjectOfType<AudioManager>().Play("Step 3");
         animator.SetFloat("Horizontal", moveDirection.x);
         animator.SetFloat("Vertical", moveDirection.y);
         animator.SetFloat("Speed", moveDirection.sqrMagnitude);
