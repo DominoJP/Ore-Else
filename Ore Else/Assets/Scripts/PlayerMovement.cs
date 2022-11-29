@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         moveDirection.y = Input.GetAxis("Vertical");
     }
 
