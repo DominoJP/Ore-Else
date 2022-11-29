@@ -62,10 +62,17 @@ public class ChestUI : MonoBehaviour
 
         }
 
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            if (inventorySlots[i].hasItem && inventorySlots[i].chestOpen)
+            {
+                inventorySlots[i].EnableTransferButton();
+            }
+
+
+        }
+
+
 
     }
-
-
-
-
 }

@@ -18,10 +18,12 @@ public class ChestInventorySlot : MonoBehaviour
     public int valueUI;
     public int indexUI;
     public bool hasItem;
+    public bool chestOpen;
 
     public int trueIndexUI;
-    
 
+    public string itemInfo;
+    public string[] itemInfoLines = new string[4];
 
 
     public void AddItem(Item newItem, float qualityScore, string name, string itemType, Sprite itemSprite, int value, int index)
@@ -42,6 +44,11 @@ public class ChestInventorySlot : MonoBehaviour
         hasItem = true;
 
         indexUI = index;
+
+        itemInfoLines[0] = "Name: " + name + "\n";
+        itemInfoLines[1] = "Type: " + itemType + "\n";
+        itemInfoLines[2] = "Value: " + value.ToString() + "\n";
+        itemInfoLines[3] = "Quality: " + qualityScore.ToString() + "\n";
 
     }
 
@@ -64,23 +71,13 @@ public class ChestInventorySlot : MonoBehaviour
 
     public void RemoveItemFromInventoryScript()
     {
-
-
-        /* for (int i = 0; i < InventoryManager.instance.items.Count; i++)
-         {
-             if (InventoryManager.instance.items[i].itemIndex == indexUI)
-             {
-                 InventoryManager.instance.items.Remove(InventoryManager.instance.items[i]);
-             }
-         }*/
-
         ChestUI.instance.UpdateUI();
         ChestInventoryManager.instance.items.Remove(ChestInventoryManager.instance.items[trueIndexUI]);
+        ChestUI.instance.UpdateUI();
     }
 
     public void TransferItem()
     {
-
 
         ChestUI.instance.UpdateUI();
 
@@ -90,6 +87,12 @@ public class ChestInventorySlot : MonoBehaviour
         RemoveItem();
 
         ChestUI.instance.UpdateUI();
+        InventoryUI.instance.UpdateUI();
+
+        ItemInfoPanel.instance.gameObject.SetActive(false);
+        ChestItemInfoPanel.instance.gameObject.SetActive(false);
+        ItemInfoPanel.instance.lastUsedButtonIndex = -1;
+        ChestItemInfoPanel.instance.lastUsedButtonIndex = -1;
 
     }
 
@@ -98,22 +101,37 @@ public class ChestInventorySlot : MonoBehaviour
         ChestUI.instance.UpdateUI();
     }
 
-    public void EnableSellButton()
+    public void EnableTransferButton()
     {
         if (hasItem)
         {
             TransferButton.interactable = true;
-            RemoveButton.interactable = false;
         }
 
     }
 
-    public void DisableSellButton()
+    public void DisableTransferButton()
     {
         TransferButton.interactable = false;
-        if (hasItem)
+        
+    }
+
+
+    public void OnMainButton()
+    {
+        if (ChestItemInfoPanel.instance.lastUsedButtonIndex != trueIndexUI)
         {
-            RemoveButton.interactable = true;
+            ChestItemInfoPanel.instance.ShowInfoPanel(itemInfoLines, trueIndexUI);
         }
     }
+
+
+    public void ClearItemInfo()
+    {
+        if (ChestItemInfoPanel.instance.lastUsedButtonIndex == trueIndexUI)
+        {
+            ChestItemInfoPanel.instance.HideInfoPanel();
+        }
+    }
+
 }

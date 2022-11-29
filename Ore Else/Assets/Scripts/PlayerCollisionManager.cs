@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerCollisionManager : MonoBehaviour
 {
 
+    public static PlayerCollisionManager instance;
+
+
 
     public bool canUseStorageChest;
     public bool canUseForge;
@@ -18,8 +21,13 @@ public class PlayerCollisionManager : MonoBehaviour
     public Vector3 centerOfShop;
     public GameObject scriptManager;
     public Canvas chestCanvas;
+    public Canvas inventoryCanvas;
+    public bool localChestOpen;
+
+    public bool inventoryOpen;
 
     public GameObject anvilSurface;
+    public int frameCounter;
 
     //public Canvas hammerCanvas;
 
@@ -29,59 +37,40 @@ public class PlayerCollisionManager : MonoBehaviour
         //hammerCanvas.enabled = false;
         centerOfShop = new Vector3(0, 0, 0);
         mainCam = Camera.main;
-       // cameraPos = mainCam.ScreenToWorldPoint;
+        // cameraPos = mainCam.ScreenToWorldPoint;
+
+        inventoryOpen = false;
+
+        if (instance != null)
+        {
+            Debug.Log("player collision instance problem");
+            return;
+        }
+
+        instance = this;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canUseAnvil && Input.GetKeyDown(KeyCode.E))
+
+        ManageActiveWorkstation();
+       /* if (localChestOpen)
         {
-            Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
-
-        }
-
-        if(canUseShop && Input.GetKeyDown(KeyCode.E))
-        {
-            for(int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
-            {
-                InventoryUI.instance.inventorySlots[i].EnableSellButton();
-            }
-        }
-
-        if (!canUseShop)
-        {
-            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
-            {
-                InventoryUI.instance.inventorySlots[i].DisableSellButton();
-            }
-        }
-
-        if (canUseStorageChest && Input.GetKeyDown(KeyCode.E))
-        {
-            chestCanvas.enabled = true;
-            
-            for(int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
-            {
-                InventoryUI.instance.inventorySlots[i].chestOpen = true;
-            }
-
-        }
-
-        if (!canUseStorageChest)
-        {
-            chestCanvas.enabled = false;
-
-            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
-            {
-                InventoryUI.instance.inventorySlots[i].chestOpen = false;
-            }
-        }
-
+            ChestUI.instance.UpdateUI();
+            InventoryUI.instance.UpdateUI();
+        }*/
     }
 
 
-    
+    private void FixedUpdate()
+    {
+        if (frameCounter < 1) 
+        {
+            frameCounter++;     
+        }
+    }
 
 
 
@@ -164,4 +153,105 @@ public class PlayerCollisionManager : MonoBehaviour
     }
 
 
-}
+    public void ManageActiveWorkstation()
+    {
+        
+        if (canUseAnvil && Input.GetKeyDown(KeyCode.E))
+        {  
+            Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
+        }
+  
+        if (canUseShop && Input.GetKeyDown(KeyCode.E))
+        { 
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {   
+                InventoryUI.instance.inventorySlots[i].EnableSellButton(); 
+            }
+        }
+
+           
+        if (!canUseShop)
+        {  
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++) 
+            {     
+                InventoryUI.instance.inventorySlots[i].DisableSellButton(); 
+            }
+        }
+
+        if (canUseStorageChest && Input.GetKeyDown(KeyCode.E))
+        { 
+            chestCanvas.enabled = true;
+            localChestOpen = true;
+               
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++) 
+            {   
+                InventoryUI.instance.inventorySlots[i].chestOpen = true; 
+            }
+
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].EnableTransferButton();
+            }
+
+            for (int i = 0; i < ChestUI.instance.inventorySlots.Length; i++)
+            {
+                ChestUI.instance.inventorySlots[i].chestOpen = true;
+            }
+
+            for (int i = 0; i < ChestUI.instance.inventorySlots.Length; i++)
+            {
+                ChestUI.instance.inventorySlots[i].EnableTransferButton();
+            }
+
+        }
+            
+        if (!canUseStorageChest)
+            
+        {
+            chestCanvas.enabled = false;
+            localChestOpen = false;
+
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {   
+                InventoryUI.instance.inventorySlots[i].chestOpen = false;
+            }
+
+            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
+            {
+                InventoryUI.instance.inventorySlots[i].DisableTransferButton();
+            }
+
+            for (int i = 0; i < ChestUI.instance.inventorySlots.Length; i++)
+            {
+                ChestUI.instance.inventorySlots[i].chestOpen = false;
+            }
+
+            for (int i = 0; i < ChestUI.instance.inventorySlots.Length; i++)
+            {
+                ChestUI.instance.inventorySlots[i].DisableTransferButton();
+            }
+        }
+
+        if (!inventoryOpen && Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryCanvas.enabled = true;
+            inventoryOpen = true;
+            frameCounter = 0;
+        }
+
+        if (inventoryOpen && Input.GetKeyDown(KeyCode.I) && frameCounter == 1)
+        {
+            inventoryOpen = false;
+            inventoryCanvas.enabled = false;
+        }
+
+    }
+
+
+
+   
+
+ }
+
+
+

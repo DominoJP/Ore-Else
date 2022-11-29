@@ -5,25 +5,24 @@ using UnityEngine;
 public class StoredValues : MonoBehaviour
 {
 
+
+    public static StoredValues instance;
+
     public int money;
 
-    public int rawIron;
-    public int rawMithril;
-    public int rawOrichalcum;
-
-    public int rawOak;
-    public int rawMaple;
-    public int rawMahogany;
-
-    public int sapphire;
-    public int emerald;
-    public int ruby;
+    
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        if(instance != null)
+        {
+            Debug.Log("StoredVales instance issue");
+            return;
+        }
+
+        instance = this;
     }
 
     // Update is called once per frame

@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     
-    public InventoryUI inventoryUI;
+    public static InventoryUI inventoryUI;
 
     public static InventoryManager instance;
 

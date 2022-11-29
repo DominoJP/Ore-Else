@@ -207,7 +207,14 @@ MonoBehaviour:
   valueUI: 0
   indexUI: 0
   hasItem: 0
+  chestOpen: 0
   trueIndexUI: 0
+  itemInfo: 
+  itemInfoLines:
+  - 
+  - 
+  - 
+  - 
 --- !u!1 &3581876608741590298
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +339,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1571453652}
         m_TargetAssemblyTypeName: ChestInventorySlot, Assembly-CSharp
-        m_MethodName: TransferItem
+        m_MethodName: OnMainButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1571453652}
+        m_TargetAssemblyTypeName: ChestInventorySlot, Assembly-CSharp
+        m_MethodName: ClearItemInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -355,7 +374,7 @@ GameObject:
   - component: {fileID: 1677553932465000643}
   - component: {fileID: 5632732873489760562}
   m_Layer: 5
-  m_Name: Sell
+  m_Name: Transfer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,7 +459,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.10413735, g: 0.8018868, b: 0, a: 1}
+    m_NormalColor: {r: 0.4245283, g: 0.19209678, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -462,7 +481,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1677553932465000643}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1571453652}
+        m_TargetAssemblyTypeName: ChestInventorySlot, Assembly-CSharp
+        m_MethodName: TransferItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6042232772088495378
 GameObject:
   m_ObjectHideFlags: 0
