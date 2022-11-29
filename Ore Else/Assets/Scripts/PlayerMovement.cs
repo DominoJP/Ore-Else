@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.y = Input.GetAxis("Vertical");
 
         animator.SetFloat("Horizontal", moveDirection.x);
-        animator.SetFloat("Vorizontal", moveDirection.y);
+        animator.SetFloat("Vertical", moveDirection.y);
         animator.SetFloat("Speed", moveDirection.sqrMagnitude);
 
     }
