@@ -29,6 +29,7 @@ public class HammerMinigame : MonoBehaviour
     public Sprite ironBladeIcon;
     public Sprite mithrilBladeIcon;
     public Sprite Orichalcum;
+    public Sprite outgoingItemSprite;
     
 
     public GameObject indicator;
@@ -59,7 +60,7 @@ public class HammerMinigame : MonoBehaviour
         target = GameObject.Find("Target");
         indicator = GameObject.Find("Indicator");
         canHit = true;
-        moveSpeed = 4;
+        moveSpeed = 3;
 
         SetIncomingValues();
         
@@ -130,7 +131,7 @@ public class HammerMinigame : MonoBehaviour
 
             
             canHit = false;
-            moveSpeed += 1.4f;
+            moveSpeed += 1.2f;
         }
 
 
@@ -152,7 +153,7 @@ public class HammerMinigame : MonoBehaviour
             SetOutgoingItemValues();
            
 
-            inventoryManager.Add(dullBlade, outgoingItemScore, prefix + " Dull Blade", outgoingItemType, ironBladeIcon, value);
+            inventoryManager.Add(dullBlade, outgoingItemScore, prefix + " Dull Blade", outgoingItemType, outgoingItemSprite, value);
 
 
             hitDistances.Clear();
@@ -184,6 +185,7 @@ public class HammerMinigame : MonoBehaviour
         {
             finalItemScore = 0;
         }
+        outgoingItemScore = finalItemScore;
     }
 
     public string GenerateName(float quality)
@@ -234,6 +236,7 @@ public class HammerMinigame : MonoBehaviour
         {
             outgoingItemValue = Mathf.CeilToInt(finalItemScore * 1.2f);
             outgoingItemType = "Iron Blade";
+            outgoingItemSprite = ironBladeIcon;
            
         }
 
@@ -241,14 +244,14 @@ public class HammerMinigame : MonoBehaviour
         {
             outgoingItemValue = Mathf.CeilToInt(finalItemScore * 1.6f);
             outgoingItemType = "Mithril Blade";
-            
+            outgoingItemSprite = mithrilBladeIcon;
         }
 
         if (incomingItemType == "Orichalcum Ingot")
         {
             outgoingItemValue = Mathf.CeilToInt(finalItemScore * 2f);
             outgoingItemType = "Orichalcum Blade";
-
+            outgoingItemSprite = Orichalcum;
         }
     }
 }
