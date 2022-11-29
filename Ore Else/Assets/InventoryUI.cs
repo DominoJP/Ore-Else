@@ -73,11 +73,21 @@ public class InventoryUI : MonoBehaviour
             
         }
 
-        
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            if (inventorySlots[i].hasItem && PlayerCollisionManager.instance.inShop)
+            {
+                inventorySlots[i].EnableSellButton();
+            }
+
+
+        }
+
+
 
     }
 
-   
+    
 
 
 }

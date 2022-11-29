@@ -12,17 +12,17 @@ public class SmeltingGame : MonoBehaviour
     [SerializeField] Transform Ingot;
     [SerializeField] float SmoothMotion= 3f; //Smooth ingot movement
     [SerializeField] float IngotTimeRandomizer= 3f; //How often the ingot will move.
-    float IngotPosition;
+   public float IngotPosition;
     float IngotSpeed;
     float IngotTimer;
-    float IngotTargetPosition;
+    public float IngotTargetPosition;
 
     [Header("MeltingPoint Settings")]
     [SerializeField] Transform MeltingPoint;
     [SerializeField] float MeltingPointSize = .18f;
     [SerializeField] float MeltingPointSpeed = .1f;
     [SerializeField] float MeltingPointGravity = .05f;
-    float MeltingPointPosition;
+    public float MeltingPointPosition;
     float MeltingPointVelocity;
 
     [Header("ProgressBar Settings")]
@@ -31,9 +31,28 @@ public class SmeltingGame : MonoBehaviour
     [SerializeField] float ProgressBarDecay;
     float IngotProgress;
 
+    [Header("Andrew Things")]
+    public SmelterCollisionDetector smelterCol;
+    public float totalFrameCounter;
+    public float touchingFrameCounter;
+    public string incomingItemType;
+    public float incomingItemScore;
+    public string outgoingItemType;
+    public float outgoingItemScore;
+    public int outgoingItemValue;
+    public string outgoingItemName;
+    public Sprite outgoingItemSprite;
+    public float finalScore;
+    public Sprite ironBar;
+    public Sprite mithrilBar;
+    public Sprite orichalcumBar;
+    public bool isOnTarget;
+    public float distance;
+
     private void Start()
     {
-        IngotProgress = 0.3f;
+        IngotProgress = 0f;
+        SetIncomingValues();
     }
 
     private void MoveIngot()
@@ -78,46 +97,41 @@ public class SmeltingGame : MonoBehaviour
         ProgressBarScale.y = IngotProgress;
         ProgressBarContainer.localScale = ProgressBarScale;
 
-        float min = MeltingPointPosition - MeltingPointSize / 2;
-        float max = MeltingPointPosition + MeltingPointSize / 2;
-
-        if(min < IngotPosition && IngotPosition < max)
+        IngotProgress = totalFrameCounter / 500f;
+        distance = Mathf.Abs(MeltingPointPosition - IngotPosition);
+       if (distance < 0.1f)
         {
-            IngotProgress += MeltingPointPower + Time.deltaTime;
-            if(IngotProgress >= 1)
-            {
-                int IngotQuality = 100;
-                string prefix = GenerateName(IngotQuality);
-
-                Debug.Log("You Win!");
-            }
+            isOnTarget = true;
         }
-        else
+
+        if (distance >= 0.1f)
         {
-            IngotProgress -= ProgressBarDecay + Time.deltaTime;
-            if(IngotProgress <= 0)
-            {
-                int IngotQuality = 0;
-                string prefix = GenerateName(IngotQuality);
-                Debug.Log("Lose");
-            }
+            isOnTarget = false;
         }
-        IngotProgress=Mathf.Clamp(IngotProgress, 0, 1);
-
     }
 
     public string GenerateName(float quality)
     {
         string prefix;
         prefix = null;
-        if (quality <= 99)
+
+        if (quality <= 25)
         {
             prefix = "Crude";
         }
-        if (quality >= 100)
+        if (quality > 25 && quality <= 70)
         {
-            prefix = "Heated Ingot";
+            prefix = "Decent";
         }
+        if (quality > 70 && quality <= 90)
+        {
+            prefix = "Good";
+        }
+        if (quality > 90 && quality <= 100)
+        {
+            prefix = "Excellent";
+        }
+
         return prefix;
     }
 
@@ -127,6 +141,83 @@ public class SmeltingGame : MonoBehaviour
         MoveIngot();
         MoveMeltingPoint();
         CheckProgress();
+        
+        TrackScore();
+
+
+        if(totalFrameCounter >= 500f)
+        {
+            float localFinalScore;
+
+            localFinalScore = (touchingFrameCounter / totalFrameCounter) * 100f;
+            Debug.Log(localFinalScore);
+            string prefix = GenerateName(localFinalScore);
+            SetOutgoingItemValues(prefix,localFinalScore);
+            InventoryManager.instance.Add(new Item(), localFinalScore, outgoingItemName, outgoingItemType, outgoingItemSprite, outgoingItemValue);
+            ClearStoredValues();
+            Destroy(gameObject);
+        }
+    }
+
+    public void TrackScore()
+    {
+
+        if (totalFrameCounter < 501f)
+        {
+            totalFrameCounter++;
+
+            if (isOnTarget)
+            {
+                touchingFrameCounter++;
+            }
+        }
+        
+    }
+
+    
+
+    public void SetIncomingValues()
+    {
+        incomingItemScore = StoredValues.instance.outgoingItemScore;
+        incomingItemType = StoredValues.instance.outgoingItemType;
+    }
+
+    public void SetOutgoingItemValues(string prefix, float score)
+    {
+
+        if (incomingItemType == "Raw Iron")
+        {
+            outgoingItemValue = Mathf.CeilToInt(score * 1.2f);
+            outgoingItemType = "Iron Ingot";
+            outgoingItemName = prefix + " Iron Ingot";
+            outgoingItemSprite = ironBar;
+        }
+
+        if (incomingItemType == "Raw Mithril")
+        {
+            outgoingItemValue = Mathf.CeilToInt(score * 1.6f);
+            outgoingItemType = "Mithril Ingot";
+            outgoingItemName = prefix + " Mithril Ingot";
+            outgoingItemSprite = mithrilBar;
+        }
+
+        if (incomingItemType == "Raw Orichalcum")
+        {
+            outgoingItemValue = Mathf.CeilToInt(score * 2f);
+            outgoingItemType = "Orichalcum Ingot";
+            outgoingItemName = prefix + " Orichalcum Ingot";
+            outgoingItemSprite = orichalcumBar;
+        }
+
+
+        
+    }
+
+    public void ClearStoredValues()
+    {
+        StoredValues.instance.selectedItemIndex = ItemInfoPanel.instance.lastUsedButtonIndex;
+        StoredValues.instance.outgoingItemType = InventoryUI.instance.inventorySlots[StoredValues.instance.selectedItemIndex].typeUI;
+        StoredValues.instance.outgoingItemScore = InventoryUI.instance.inventorySlots[StoredValues.instance.selectedItemIndex].qualityScoreUI;
     }
 
 }

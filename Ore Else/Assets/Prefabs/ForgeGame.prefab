@@ -55,8 +55,8 @@ MonoBehaviour:
   TopBoundary: {fileID: 1480867541272591291}
   LowBoundary: {fileID: 1480867540865277628}
   Ingot: {fileID: 1480867540760048819}
-  SmoothMotion: 3
-  IngotTimeRandomizer: 3
+  SmoothMotion: 0.5
+  IngotTimeRandomizer: 2
   MeltingPoint: {fileID: 1480867541816167763}
   MeltingPointSize: 0.18
   MeltingPointSpeed: 0.1
@@ -64,6 +64,20 @@ MonoBehaviour:
   ProgressBarContainer: {fileID: 1480867541761618519}
   MeltingPointPower: 0.5
   ProgressBarDecay: 0.1
+  smelterCol: {fileID: 757542854651604748}
+  totalFrameCounter: 0
+  touchingFrameCounter: 0
+  incomingItemType: 
+  incomingItemScore: 0
+  outgoingItemType: 
+  outgoingItemScore: 0
+  outgoingItemValue: 0
+  outgoingItemName: 
+  outgoingItemSprite: {fileID: 0}
+  finalScore: 0
+  ironBar: {fileID: 21300000, guid: 36cd82cdd9c224549b8149b3b3843c4b, type: 3}
+  mithrilBar: {fileID: 21300000, guid: 76b1bb364535a08469434d5e5445cc14, type: 3}
+  orichalcumBar: {fileID: 21300000, guid: 536c8be1052b86b46a90881ad3d06a7f, type: 3}
 --- !u!1 &1480867540760048820
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,9 +88,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1480867540760048819}
   - component: {fileID: 1480867540760048818}
+  - component: {fileID: 3318812585247224916}
   m_Layer: 0
   m_Name: Ingot
-  m_TagString: Untagged
+  m_TagString: SmeltIngot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,6 +163,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &3318812585247224916
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480867540760048820}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1480867540865277629
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480867541761618520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.71, y: -1.2, z: 0}
+  m_LocalPosition: {x: 0.71, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -588,6 +629,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1480867541816167763}
   - component: {fileID: 1480867541816167762}
+  - component: {fileID: 2406671808854066859}
+  - component: {fileID: 757542854651604748}
   m_Layer: 0
   m_Name: MeltingPoint
   m_TagString: Untagged
@@ -662,3 +705,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &2406671808854066859
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480867541816167764}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &757542854651604748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480867541816167764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b032b32110724642996acc65b331e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInContact: 0

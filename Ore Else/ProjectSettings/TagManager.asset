@@ -16,6 +16,7 @@ TagManager:
   - HammerIndicator
   - TopBumper
   - BottomBumper
+  - SmeltIngot
   layers:
   - Default
   - TransparentFX

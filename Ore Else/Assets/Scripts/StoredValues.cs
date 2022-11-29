@@ -10,7 +10,10 @@ public class StoredValues : MonoBehaviour
 
     public int money;
 
-    
+    public int selectedItemIndex;
+    public float outgoingItemScore;
+    public string outgoingItemType;
+    public int outgoingItemValue;
 
 
     // Start is called before the first frame update

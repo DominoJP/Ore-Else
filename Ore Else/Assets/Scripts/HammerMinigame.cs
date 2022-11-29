@@ -8,15 +8,27 @@ public class HammerMinigame : MonoBehaviour
 
     public Canvas hammerCanvas;
 
+
+    public string incomingItemType;
+    public float incomingItemScore;
+
+    public string outgoingItemType;
+    public float outgoingItemScore;
+    public int outgoingItemValue;
+
+
     public float currentPartScore;
     public float currentHitDistance;
     public int requiredHits = 8;
     public List<float> hitDistances = new List<float>();
     public int hitCounter = 0;
     public float finalItemScore;
+    public float cooldown;
+    
 
-    public Sprite barIcon;
-    public Sprite TestIcon;
+    public Sprite ironBladeIcon;
+    public Sprite mithrilBladeIcon;
+    public Sprite Orichalcum;
     
 
     public GameObject indicator;
@@ -29,6 +41,7 @@ public class HammerMinigame : MonoBehaviour
     public bool isMovingUp;
     public bool isMovingDown;
     public bool isInTarget;
+    public bool canHit;
 
     public Item dullBlade;
 
@@ -45,8 +58,12 @@ public class HammerMinigame : MonoBehaviour
         fillBar = GameObject.Find("FillBar");
         target = GameObject.Find("Target");
         indicator = GameObject.Find("Indicator");
+        canHit = true;
+        moveSpeed = 4;
 
+        SetIncomingValues();
         
+
         
        // Debug.Log("Test Start Function");
 
@@ -61,7 +78,7 @@ public class HammerMinigame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //FindInventoryManager();
+        
         ManageIndicatorMovement();
         ManageHits();
     }
@@ -73,28 +90,47 @@ public class HammerMinigame : MonoBehaviour
     }
 
 
+
     public void ManageHits()
     {
 
-        if (Input.GetMouseButtonDown(0) && hitCounter < requiredHits) 
+        if (Input.GetMouseButtonDown(0) && hitCounter < requiredHits && canHit) 
         {
+            int hitsLeft = requiredHits - hitCounter;
             
-            if (!isInTarget)
-             {
+            
                 currentHitDistance = Mathf.Abs(target.transform.position.y - indicator.transform.position.y)/2.6f;
-             }
+             
 
 
             if (isInTarget)
             {
-                currentHitDistance = 0f;
+                currentHitDistance /= 2;
             }
 
-            hitDistances.Add(currentHitDistance);
+            hitDistances.Add(currentHitDistance*2);
             hitCounter++;
 
-            target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y - ((1f / requiredHits) / 2f)));
+            if(hitsLeft > 5)
+            {
+                target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y / 1.4f));
+            }
 
+            if (hitsLeft <= 5 && hitsLeft > 3)
+            {
+                target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y / 1.8f));
+            }
+
+            if(hitsLeft <= 3)
+            {
+                target.transform.localScale = new Vector2(1, Mathf.Abs(target.transform.localScale.y / 2.2f));
+            }
+                
+            
+
+            
+            canHit = false;
+            moveSpeed += 1.4f;
         }
 
 
@@ -113,15 +149,17 @@ public class HammerMinigame : MonoBehaviour
 
             int value = Mathf.CeilToInt(finalItemScore * 1.2f);
 
+            SetOutgoingItemValues();
            
 
-            inventoryManager.Add(dullBlade, finalItemScore, prefix + " Dull Blade", "Unsharpened Blade", barIcon, value);
+            inventoryManager.Add(dullBlade, outgoingItemScore, prefix + " Dull Blade", outgoingItemType, ironBladeIcon, value);
 
 
             hitDistances.Clear();
             hitCounter = 0;
             currentPartScore = 0;
-           
+
+            ClearStoredValues();
 
             Destroy(gameObject);
         }
@@ -139,6 +177,13 @@ public class HammerMinigame : MonoBehaviour
 
         currentPartScore = currentPartScore / hitDistances.Count;
         finalItemScore = (1 - currentPartScore) * 100;
+
+        finalItemScore = (finalItemScore + incomingItemScore) / 2;
+
+        if(finalItemScore < 0)
+        {
+            finalItemScore = 0;
+        }
     }
 
     public string GenerateName(float quality)
@@ -169,7 +214,41 @@ public class HammerMinigame : MonoBehaviour
     }
 
    
+    public void ClearStoredValues()
+    {
+        StoredValues.instance.selectedItemIndex = ItemInfoPanel.instance.lastUsedButtonIndex;
+        StoredValues.instance.outgoingItemType = InventoryUI.instance.inventorySlots[StoredValues.instance.selectedItemIndex].typeUI;
+        StoredValues.instance.outgoingItemScore = InventoryUI.instance.inventorySlots[StoredValues.instance.selectedItemIndex].qualityScoreUI;
+    }
 
+    public void SetIncomingValues()
+    {
+        incomingItemScore = StoredValues.instance.outgoingItemScore;
+        incomingItemType = StoredValues.instance.outgoingItemType;
+    }
 
+    public void SetOutgoingItemValues ()
+    {
 
+        if(incomingItemType == "Iron Ingot")
+        {
+            outgoingItemValue = Mathf.CeilToInt(finalItemScore * 1.2f);
+            outgoingItemType = "Iron Blade";
+           
+        }
+
+        if (incomingItemType == "Mithril Ingot")
+        {
+            outgoingItemValue = Mathf.CeilToInt(finalItemScore * 1.6f);
+            outgoingItemType = "Mithril Blade";
+            
+        }
+
+        if (incomingItemType == "Orichalcum Ingot")
+        {
+            outgoingItemValue = Mathf.CeilToInt(finalItemScore * 2f);
+            outgoingItemType = "Orichalcum Blade";
+
+        }
+    }
 }

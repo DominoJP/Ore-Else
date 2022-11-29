@@ -95,6 +95,18 @@ public class InventorySlot : MonoBehaviour
     public void SellItem()
     {
         InventoryUI.instance.UpdateUI();
+
+        StoredValues.instance.money += valueUI;
+        RemoveItem();
+        RemoveItemFromInventoryScript();
+
+        InventoryUI.instance.UpdateUI();
+
+        ItemInfoPanel.instance.gameObject.SetActive(false);
+        ChestItemInfoPanel.instance.gameObject.SetActive(false);
+        ItemInfoPanel.instance.lastUsedButtonIndex = -1;
+        ChestItemInfoPanel.instance.lastUsedButtonIndex = -1;
+
     }
 
     public void SelectItem()
@@ -107,7 +119,6 @@ public class InventorySlot : MonoBehaviour
         if (hasItem)
         {
             SellButton.interactable = true;
-            RemoveButton.interactable = false;
         }
 
     }

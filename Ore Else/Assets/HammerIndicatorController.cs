@@ -29,6 +29,7 @@ public class HammerIndicatorController : MonoBehaviour
             hammerGameScript.isMovingUp = false;
             hammerGameScript.isMovingDown = true;
             hammerGameScript.moveDirection = new Vector2(0, -1);
+            hammerGameScript.canHit = true;
         }
 
         if (other.CompareTag("BottomBumper") && hammerGameScript.isMovingDown)
@@ -36,6 +37,7 @@ public class HammerIndicatorController : MonoBehaviour
             hammerGameScript.isMovingUp = true;
             hammerGameScript.isMovingDown = false;
             hammerGameScript.moveDirection = new Vector2(0, 1);
+            hammerGameScript.canHit = true;
         }
 
         if (other.CompareTag("HammerTarget"))

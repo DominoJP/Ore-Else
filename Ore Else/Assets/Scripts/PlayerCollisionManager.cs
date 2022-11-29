@@ -9,6 +9,8 @@ public class PlayerCollisionManager : MonoBehaviour
 
 
 
+   
+
     public bool canUseStorageChest;
     public bool canUseForge;
     public bool canUseAnvil;
@@ -16,17 +18,28 @@ public class PlayerCollisionManager : MonoBehaviour
     public bool canUseGemStation;
     public bool canUseShop;
     public bool canUseEnchantingStation;
-    public Vector3 cameraPos;
-    public Camera mainCam;
+    
     public Vector3 centerOfShop;
+
     public GameObject scriptManager;
+    public GameObject anvilSurface;
+    public GameObject forgeGame;
+    public GameObject bench;
+
     public Canvas chestCanvas;
     public Canvas inventoryCanvas;
+    public Canvas shopCanvas;
+    public Canvas chooseItemCanvas;
+    
+
+
     public bool localChestOpen;
-
     public bool inventoryOpen;
+    public bool inShop;
+    public bool inWoodworking;
+    public bool inGrindWheel;
 
-    public GameObject anvilSurface;
+    
     public int frameCounter;
 
     //public Canvas hammerCanvas;
@@ -34,10 +47,10 @@ public class PlayerCollisionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //hammerCanvas.enabled = false;
+        
         centerOfShop = new Vector3(0, 0, 0);
-        mainCam = Camera.main;
-        // cameraPos = mainCam.ScreenToWorldPoint;
+        
+        
 
         inventoryOpen = false;
 
@@ -56,11 +69,7 @@ public class PlayerCollisionManager : MonoBehaviour
     {
 
         ManageActiveWorkstation();
-       /* if (localChestOpen)
-        {
-            ChestUI.instance.UpdateUI();
-            InventoryUI.instance.UpdateUI();
-        }*/
+       
     }
 
 
@@ -157,18 +166,29 @@ public class PlayerCollisionManager : MonoBehaviour
     {
         
         if (canUseAnvil && Input.GetKeyDown(KeyCode.E))
-        {  
-            Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
+        {
+            ChooseItem.instance.ResetValues();
+            chooseItemCanvas.enabled = true;
         }
   
         if (canUseShop && Input.GetKeyDown(KeyCode.E))
-        { 
-            for (int i = 0; i < InventoryUI.instance.inventorySlots.Length; i++)
-            {   
-                InventoryUI.instance.inventorySlots[i].EnableSellButton(); 
-            }
+        {
+            inShop = true;
+            shopCanvas.enabled = true;
+            InventoryUI.instance.UpdateUI();
+        }
+        
+        if(canUseForge && Input.GetKeyDown(KeyCode.E))
+        {
+            ChooseItem.instance.ResetValues();
+            chooseItemCanvas.enabled = true;
         }
 
+        if(canUseWoodworkingBench && Input.GetKeyDown(KeyCode.E))
+        {
+            ChooseItem.instance.ResetValues();
+            chooseItemCanvas.enabled = true;
+        }
            
         if (!canUseShop)
         {  
@@ -176,6 +196,7 @@ public class PlayerCollisionManager : MonoBehaviour
             {     
                 InventoryUI.instance.inventorySlots[i].DisableSellButton(); 
             }
+            shopCanvas.enabled = false;
         }
 
         if (canUseStorageChest && Input.GetKeyDown(KeyCode.E))
@@ -245,11 +266,24 @@ public class PlayerCollisionManager : MonoBehaviour
             inventoryCanvas.enabled = false;
         }
 
+
     }
 
 
+    public void SpawnAnvil()
+    {
+        Instantiate(anvilSurface, centerOfShop, Quaternion.Euler(0, 0, 0));
+    }
 
-   
+    public void SpawnForge()
+    {
+        Instantiate(forgeGame, centerOfShop, Quaternion.Euler(0, 0, 0));
+    }
+
+    public void SpawnWoodworkingBench()
+    {
+        Instantiate(bench, centerOfShop, Quaternion.Euler(0, 0, 0));
+    }
 
  }
 
